@@ -1,0 +1,6 @@
+.direnv/
+.venv/
+.ansible/
+.ruff_cache/
+
+.pre-commit-config.yaml

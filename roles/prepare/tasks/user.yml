@@ -1,0 +1,9 @@
+---
+- name: Add the user
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    shell: "{{ user.shell | default('/usr/bin/bash') }}"
+    password: "{{ user_password }}"
+    uid: "{{ user.uid | default(omit) }}"
+    groups:
+      - wheel

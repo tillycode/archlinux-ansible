@@ -1,0 +1,22 @@
+---
+- name: Setup pacman
+  ansible.builtin.import_tasks: pacman.yml
+  tags: pacman
+
+- name: Install packages
+  community.general.pacman:
+    name: "{{ packages | default([]) }}"
+    state: present
+  tags: packages
+
+- name: Setup ssh
+  ansible.builtin.import_tasks: ssh.yml
+  tags: ssh
+
+- name: Setup sudo
+  ansible.builtin.import_tasks: sudo.yml
+  tags: sudo
+
+- name: Setup user
+  ansible.builtin.import_tasks: user.yml
+  tags: user

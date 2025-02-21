@@ -1,0 +1,9 @@
+---
+- name: Allow members of the wheel group to execute any command without a password
+  community.general.sudoers:
+    name: 01_wheel
+    group: wheel
+    nopassword: true
+    commands:
+      - ALL
+    state: present

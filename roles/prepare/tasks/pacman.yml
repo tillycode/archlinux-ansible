@@ -1,0 +1,49 @@
+---
+- name: Enable color in pacman
+  become: true
+  ansible.builtin.lineinfile:
+    regexp: "^#?Color"
+    line: "Color"
+    path: /etc/pacman.conf
+
+- name: Enable parallel downloads in pacman
+  become: true
+  ansible.builtin.lineinfile:
+    regexp: "^#?ParallelDownloads"
+    path: /etc/pacman.conf
+    line: "ParallelDownloads = 5"
+
+- name: Setup pacman mirrorlist
+  become: true
+  ansible.builtin.template:
+    src: mirrorlist.j2
+    dest: /etc/pacman.d/mirrorlist
+    owner: root
+    group: root
+    mode: "0644"
+  vars:
+    mirrorlist: "{{ package_mirrorlist | default([]) }}"
+  register: mirrorlist
+
+- name: Setup archlinuxcn
+  become: true
+  ansible.builtin.blockinfile:
+    block: |
+      [archlinuxcn]
+      Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+    path: /etc/pacman.conf
+    insertafter: EOF
+    prepend_newline: true
+  register: archlinuxcn
+
+- name: Full system upgrade
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+    force: true
+  when: mirrorlist.changed or archlinuxcn.changed
+
+- name: Install archlinuxcn-keyring
+  community.general.pacman:
+    name: archlinuxcn-keyring
+    state: present

@@ -1,0 +1,18 @@
+package_mirrorlist:
+  - https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+
+packages:
+  - base-devel
+  - yay
+  - zsh
+
+user:
+  name: sun
+  shell: /usr/bin/zsh
+  uid: 1000
+
+# user_password is in `secrets.sops.yml`
+
+user_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBIO4wL3BzfaMDOpbT/U/99MVQERjtzH2YxA6KAs7lwM sun@nixos
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAamaMcCAc7DhTJjDqBwXTWhewX0OI8vAuXLvc17yqK/ cardno:19_795_283
