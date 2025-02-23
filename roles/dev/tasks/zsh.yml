@@ -1,0 +1,51 @@
+---
+- name: Install oh-my-zsh packages
+  community.general.pacman:
+    name:
+      - zsh
+      - oh-my-zsh-git
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+      - zsh-theme-powerlevel10k-git
+    executable: yay
+
+- name: Create ~/.oh-my-zsh directory
+  block:
+    - name: Create ~/.oh-my-zsh/custom/plugins directory
+      ansible.builtin.file:
+        path: "{{ user_home }}/.oh-my-zsh/custom/plugins"
+        state: directory
+        mode: "0755"
+    - name: Create ~/.oh-my-zsh/custom/themes directory
+      ansible.builtin.file:
+        path: "{{ user_home }}/.oh-my-zsh/custom/themes"
+        state: directory
+        mode: "0755"
+    - name: Create symlink to zsh-autosuggestions
+      ansible.builtin.file:
+        src: /usr/share/zsh/plugins/zsh-autosuggestions
+        dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        state: link
+    - name: Create symlink to zsh-syntax-highlighting
+      ansible.builtin.file:
+        src: /usr/share/zsh/plugins/zsh-syntax-highlighting
+        dest: "{{ user_home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        state: link
+    - name: Create symlink to powerlevel10k theme
+      ansible.builtin.file:
+        src: /usr/share/zsh-theme-powerlevel10k
+        dest: "{{ user_home }}/.oh-my-zsh/custom/themes/zsh-theme-powerlevel10k"
+        state: link
+
+- name: Copy zsh configuration
+  block:
+    - name: Copy p10k.zsh
+      ansible.builtin.copy:
+        src: p10k.zsh
+        dest: "{{ user_home }}/.p10k.zsh"
+        mode: "0644"
+    - name: Copy zshrc
+      ansible.builtin.copy:
+        src: zshrc
+        dest: "{{ user_home }}/.zshrc"
+        mode: "0644"

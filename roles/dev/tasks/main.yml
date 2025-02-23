@@ -1,0 +1,16 @@
+---
+- name: Gather user facts
+  tags: always
+  block:
+    - name: Query user home
+      ansible.builtin.command:
+        cmd: echo $HOME
+      register: home
+      changed_when: false
+    - name: Set user facts
+      ansible.builtin.set_fact:
+        user_home: "{{ home.stdout }}"
+
+- name: Setup zsh
+  ansible.builtin.import_tasks: zsh.yml
+  tags: zsh

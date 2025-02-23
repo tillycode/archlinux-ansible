@@ -16,19 +16,18 @@ source "incus" "archlinux" {
   output_image    = "archdev"
   container_name  = "packer-archdev"
   virtual_machine = true
+  reuse           = true
   launch_config = {
     "security.secureboot" = "false"
   }
-  # skip_publish = true
 }
 
 build {
   sources = ["incus.archlinux"]
 
   provisioner "ansible" {
-    pause_before  = "5s"
-    playbook_file = "${path.root}/prepare.yml"
-    # extra_arguments = [ "-vvv" ]
+    pause_before   = "5s"
     inventory_file = "${path.root}/inventory.ini"
+    playbook_file  = "${path.root}/build.yml"
   }
 }
