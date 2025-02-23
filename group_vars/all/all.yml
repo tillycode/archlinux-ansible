@@ -3,6 +3,7 @@ package_mirrorlist:
 
 packages:
   - base-devel
+  - htop
   - yay
   - zsh
 

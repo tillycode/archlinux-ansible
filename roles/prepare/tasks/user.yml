@@ -7,3 +7,11 @@
     uid: "{{ user.uid | default(omit) }}"
     groups:
       - wheel
+
+- name: Add authorized_keys
+  ansible.posix.authorized_key:
+    user: "{{ user.name }}"
+    state: present
+    key: "{{ item }}"
+  with_items:
+    - "{{ user_authorized_keys }}"

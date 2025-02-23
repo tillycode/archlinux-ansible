@@ -1,5 +1,0 @@
----
-- name: Build the ArchLinux development image
-  hosts: default
-  roles:
-    - role: prepare

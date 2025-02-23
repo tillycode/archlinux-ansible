@@ -1,0 +1,8 @@
+---
+- name: Build the ArchLinux development image
+  hosts: default
+  roles:
+    - role: prepare
+    - role: dev
+      ansible_become: true # noqa: var-naming[no-role-prefix]
+      ansible_become_user: "{{ user.name }}"
